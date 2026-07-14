@@ -9,7 +9,6 @@ public class Student {
 
     public Student() {}
 
-    // 用 IDEA 快捷键 Alt+Insert (或右键 -> Generate) 自动生成 Getter 和 Setter
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
     public String getUsername() { return username; }
