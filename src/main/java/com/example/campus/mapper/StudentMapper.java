@@ -4,6 +4,7 @@ import com.example.campus.entity.Student;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import java.util.List;
 
 @Mapper
 public interface StudentMapper {
@@ -13,4 +14,7 @@ public interface StudentMapper {
 
     @Insert("INSERT INTO student (username, password, name, class_name) VALUES (#{username}, #{password}, #{name}, #{className})")
     int insertStudent(Student student);
+
+    @Select("SELECT * FROM student")
+    List<Student> findAll();
 }
