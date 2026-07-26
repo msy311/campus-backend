@@ -19,4 +19,17 @@ public class NoticeController {
     public List<Notice> getAllNotices() {
         return noticeMapper.findAll();
     }
+
+    // 查询单个公告
+    @GetMapping("/{id}")
+    public Notice getNoticeById(@PathVariable Integer id) {
+        return noticeMapper.findById(id);
+    }
+
+    // 发布公告
+    @PostMapping("/publish")
+    public String publishNotice(@RequestBody Notice notice) {
+        int result = noticeMapper.insert(notice);
+        return result > 0 ? "公告发布成功" : "发布失败";
+    }
 }
