@@ -4,6 +4,7 @@ import com.example.campus.entity.Student;
 import com.example.campus.mapper.StudentMapper;
 import com.example.campus.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -14,6 +15,9 @@ public class StudentController {
     @Autowired
     private StudentMapper studentMapper;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     // 注册接口
     @PostMapping("/register")
     public String register(@RequestBody Student student) {
@@ -21,6 +25,8 @@ public class StudentController {
         if (exist != null) {
             return "注册失败：用户名已存在";
         }
+        // 加密密码再存储
+        student.setPassword(passwordEncoder.encode(student.getPassword()));
         studentMapper.insertStudent(student);
         return "注册成功";
     }
@@ -32,7 +38,7 @@ public class StudentController {
         if (exist == null) {
             return "用户不存在";
         }
-        if (exist.getPassword().equals(student.getPassword())) {
+        if (passwordEncoder.matches(student.getPassword(), exist.getPassword())) {
             // 登录成功，生成JWT令牌
             String token = JwtUtil.generateToken(exist.getUsername());
             return "登录成功，Token: " + token;
