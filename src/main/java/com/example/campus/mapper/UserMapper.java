@@ -15,4 +15,7 @@ public interface UserMapper {
 
     @Update("UPDATE user SET role_id = #{roleId} WHERE id = #{id}")
     int updateRole(@Param("id") Integer id, @Param("roleId") Integer roleId);
+
+    @Select("SELECT * FROM user WHERE username = #{username}")
+    User findByUsername(String username);
 }

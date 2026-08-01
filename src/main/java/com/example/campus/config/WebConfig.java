@@ -1,6 +1,7 @@
 package com.example.campus.config;
 
 import com.example.campus.interceptor.JwtInterceptor;
+import com.example.campus.interceptor.RoleInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -12,13 +13,25 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private JwtInterceptor jwtInterceptor;
 
+    @Autowired
+    private RoleInterceptor roleInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        // JWT 拦截器：验证是否登录
         registry.addInterceptor(jwtInterceptor)
-                .addPathPatterns("/api/**")          // 拦截所有 /api/ 开头的接口
-                .excludePathPatterns(                // 放行以下路径（不需要登录也能访问）
-                        "/api/students/register",    // 注册接口
-                        "/api/students/login"        // 登录接口
+                .addPathPatterns("/api/**")
+                .excludePathPatterns(
+                        "/api/students/register",
+                        "/api/students/login"
+                );
+
+        // 权限拦截器：验证角色权限
+        registry.addInterceptor(roleInterceptor)
+                .addPathPatterns("/api/**")
+                .excludePathPatterns(
+                        "/api/students/register",
+                        "/api/students/login"
                 );
     }
 }
