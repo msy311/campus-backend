@@ -32,6 +32,8 @@ public class JwtInterceptor implements HandlerInterceptor {
             return false;
         }
 
+        // 把用户名存到请求属性里，Controller可以取出来
+        request.setAttribute("currentUsername", JwtUtil.getUsernameFromToken(token));
         // 5. 验证通过，放行
         return true;
     }
