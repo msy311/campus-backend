@@ -23,7 +23,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/api/**")
                 .excludePathPatterns(
                         "/api/students/register",
-                        "/api/students/login"
+                        "/api/students/login",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/v3/api-docs/**"
                 );
 
         // 权限拦截器：验证角色权限
@@ -31,7 +34,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/api/**")
                 .excludePathPatterns(
                         "/api/students/register",
-                        "/api/students/login"
+                        "/api/students/login",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/v3/api-docs/**"
                 );
     }
 }
