@@ -3,6 +3,7 @@ package com.example.campus.controller;
 import com.example.campus.entity.Student;
 import com.example.campus.mapper.StudentMapper;
 import com.example.campus.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -51,5 +52,12 @@ public class StudentController {
     @GetMapping("/all")
     public List<Student> getAllStudents() {
         return studentMapper.findAll();
+    }
+
+    // 获取当前登录用户信息
+    @GetMapping("/me")
+    public Student getCurrentStudent(HttpServletRequest request) {
+        String currentUsername = (String) request.getAttribute("currentUsername");
+        return studentMapper.findByUsername(currentUsername);
     }
 }
